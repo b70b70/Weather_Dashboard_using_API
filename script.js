@@ -1,4 +1,4 @@
-//  API keys and endpoints
+// Define constants for your API keys and endpoints
 const openWeatherMapApiKey = '430b694a7dd7b9982830ab6b65dec4b0';
 const geoLocationApiEndpoint = 'http://api.openweathermap.org/geo/1.0/direct';
 
@@ -38,7 +38,6 @@ function fetchWeatherData(latitude, longitude) {
     .then((data) => {
       // Handle and display weather data as needed
       // Update your UI with the weather information based on the coordinates
-      // Example: Display current weather and 5-day forecast
       displayCurrentWeather(data);
       displayFiveDayForecast(data);
     })
@@ -51,12 +50,44 @@ function fetchWeatherData(latitude, longitude) {
 function displayCurrentWeather(data) {
   const currentWeatherSection = document.getElementById('current-weather');
   // Extract and display current weather information here
+  const temperature = data.list[0].main.temp;
+  const humidity = data.list[0].main.humidity;
+
+  // Update the UI element with the weather information
+  currentWeatherSection.innerHTML = `
+    <h2>Current Weather</h2>
+    <p>Temperature: ${temperature}°C</p>
+    <p>Humidity: ${humidity}%</p>
+    <!-- Add more weather details as needed -->
+  `;
 }
 
 // Function to display the 5-day forecast
 function displayFiveDayForecast(data) {
   const forecastSection = document.getElementById('forecast');
   // Extract and display 5-day forecast information here
+
+  // Example: Loop through the forecast data and generate HTML for each day
+  const forecasts = data.list;
+  let forecastHtml = '<h2>5-Day Forecast</h2>';
+  forecasts.slice(1, 6).forEach((forecast) => { // Exclude the current day's data
+    const date = forecast.dt_txt; // Date and time
+    const temperature = forecast.main.temp;
+    const humidity = forecast.main.humidity;
+
+    // Create HTML for each forecast entry
+    forecastHtml += `
+      <div class="forecast-entry">
+        <p>Date: ${date}</p>
+        <p>Temperature: ${temperature}°C</p>
+        <p>Humidity: ${humidity}%</p>
+        <!-- Add more forecast details as needed -->
+      </div>
+    `;
+  });
+
+  // Update the UI element with the forecast data
+  forecastSection.innerHTML = forecastHtml;
 }
 
 // Event listener for the search form submission
