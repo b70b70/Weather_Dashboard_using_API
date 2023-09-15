@@ -1,4 +1,4 @@
-// Define constants for your API keys and endpoints
+// Defined constants for API keys and endpoints
 const openWeatherMapApiKey = '430b694a7dd7b9982830ab6b65dec4b0';
 const geoLocationApiEndpoint = 'http://api.openweathermap.org/geo/1.0/direct';
 
@@ -52,43 +52,51 @@ function fetchWeatherData(city, latitude, longitude) {
 
 // Function to display the current weather and 5-day forecast
 function updateUI(city, data) {
-  // Extract and display current weather information here
-  const temperature = data.list[0].main.temp;
-  const humidity = data.list[0].main.humidity;
-
-  // Update the UI element with the weather information
-  const currentWeatherSection = document.getElementById('current-weather');
-  currentWeatherSection.innerHTML = `
-    <h2>${city}</h2>
-    <p>Temperature: ${temperature}°C</p>
-    <p>Humidity: ${humidity}%</p>
-    <!-- Add more weather details as needed -->
-  `;
-
-  // Extract and display 5-day forecast information here
-  const forecastSection = document.getElementById('forecast');
-  const forecasts = data.list.slice(1, 6); // Exclude the current day's data
-
-  // Generate HTML for the forecast entries
-  let forecastHtml = '<h2>5-Day Forecast</h2>';
-  forecasts.forEach((forecast) => {
-    const date = forecast.dt_txt; // Date and time
-    const temperature = forecast.main.temp;
-    const humidity = forecast.main.humidity;
-
-    forecastHtml += `
-      <div class="forecast-entry">
-        <p>Date: ${date}</p>
-        <p>Temperature: ${temperature}°C</p>
-        <p>Humidity: ${humidity}%</p>
-        <!-- Add more forecast details as needed -->
-      </div>
+    // Extract and display current weather information here
+    const temperature = data.list[0].main.temp;
+    const humidity = data.list[0].main.humidity;
+  
+    // Update the UI element with the weather information
+    const currentWeatherSection = document.getElementById('current-weather');
+    currentWeatherSection.innerHTML = `
+      <h2>${city}</h2>
+      <p>Temperature: ${temperature}°C</p>
+      <p>Humidity: ${humidity}%</p>
+      <!-- Add more weather details as needed -->
     `;
-  });
-
-  // Update the UI element with the forecast data
-  forecastSection.innerHTML = forecastHtml;
-}
+  
+    // Extract and display 5-day forecast information here
+    const forecastSection = document.getElementById('forecast');
+    const forecasts = data.list.slice(1, 6); // Exclude the current day's data
+  
+    // Generate HTML for the forecast entries
+    let forecastHtml = '<h2>5-Day Forecast</h2>';
+  
+    forecasts.forEach((forecast) => {
+      const date = forecast.dt_txt; // Date and time
+      const temperature = forecast.main.temp;
+      const humidity = forecast.main.humidity;
+      const weatherIconCode = forecast.weather[0].icon; // Get the weather icon code
+  
+      // Create an image element for the weather icon
+      const weatherIconUrl = `https://openweathermap.org/img/w/${weatherIconCode}.png`;
+      const weatherIcon = `<img src="${weatherIconUrl}" alt="Weather Icon">`;
+  
+      // Create HTML for each forecast entry
+      forecastHtml += `
+        <div class="forecast-entry">
+          <p>Date: ${date}</p>
+          ${weatherIcon} <!-- Display the weather icon -->
+          <p>Temperature: ${temperature}°C</p>
+          <p>Humidity: ${humidity}%</p>
+          <!-- Add more forecast details as needed -->
+        </div>
+      `;
+    });
+  
+    // Update the UI element with the forecast data
+    forecastSection.innerHTML = forecastHtml;
+  }
 
 // Function to add a city to the search history
 function addToSearchHistory(city) {
@@ -120,7 +128,6 @@ function updateSearchHistoryUI() {
       historyList.appendChild(historyItem);
     });
   }
-  
 
 // Event listener for the search form submission
 document.getElementById('search-form').addEventListener('submit', (event) => {
@@ -130,6 +137,6 @@ document.getElementById('search-form').addEventListener('submit', (event) => {
   // Call the function to fetch geo location for the city
   fetchGeoLocation(city);
 
-  // Update the search history and UI as needed
-  // ...
+  
 });
+
