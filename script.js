@@ -1,6 +1,6 @@
 // Defined constants for API keys and endpoints
-const openWeatherMapApiKey = '430b694a7dd7b9982830ab6b65dec4b0';
-const geoLocationApiEndpoint = 'http://api.openweathermap.org/geo/1.0/direct';
+const openWeatherMapApiKey = '0db7ea027bb801cc58e75ada2171afdf';
+const geoLocationApiEndpoint = 'https://api.openweathermap.org/geo/1.0/direct';
 
 // Initialize an array to store search history
 const searchHistory = [];
